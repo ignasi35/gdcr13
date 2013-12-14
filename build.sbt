@@ -1,4 +1,4 @@
-name := "sample-name"
+name := "gdcr-iter002"
 
 version := "0.0.1-SNAPSHOT"
 
