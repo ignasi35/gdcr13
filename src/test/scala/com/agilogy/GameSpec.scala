@@ -4,37 +4,36 @@ import org.specs2.mutable.Specification;
 
 class GameSpec extends Specification {
 
-  "A Conway's Game Of Life" should {
+  val dead = false
+  val alive = true
 
-    "keep three cells alive when had three cells alive and connected" in {
-      val game = new Game(3)
-      game.nextGenPopulation must equalTo(3)
+  "A Cell" should {
+
+      def cellAssertion(before : Boolean, neighCount : Int, after : Boolean) =
+        new Cell(before, neighCount).nextGen.isAlive should equalTo(after)
+
+    "die when it's alive and has one or less neighbors" in {
+      cellAssertion(alive, 1, dead)
     }
-
-    "loose all cells when had two cells alive and connected" in {
-      val game = new Game(2)
-      game.nextGenPopulation must equalTo(0)
+    "live when it's alive and has two or three neighbors" in {
+      cellAssertion(alive, 2, alive)
     }
-
-    "spawn a dead cell when had three cells alive and one dead and connected" in {
-      val game = new Game(3, 1)
-      game.nextGenPopulation must equalTo(4)
+    "die when it's alive and has more than three neighbors" in {
+      cellAssertion(alive, 4, dead)
     }
-
-    "spawn all dead cell when had three cells alive and twenty dead and connected" in {
-      val game = new Game(3, 20)
-      game.nextGenPopulation must equalTo(23)
+    "spawn when it's dead and has exactly three neighbors" in {
+      cellAssertion(dead, 3, alive)
     }
 
   }
 
-  "A RelationalGame" should {
+  "A World" should {
 
-    "get 0 alive cells when had 3 alive unconnected cells" in {
+    "update a cell state when a cell state is changed" in {
+      val w = new World()
+      val cell = Cell(alive, 0)
+      w.put((3, 3), cell)
 
-      val aliveness = Map(("1" -> true), ("2" -> true), ("3" -> true))
-
-      new RelationalGame(aliveness, Map()).nextGenPopulation should equalTo(0)
     }
 
   }
