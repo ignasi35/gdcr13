@@ -14,6 +14,7 @@ case class Cell(aliveness : Liveness, neighbours : List[Cell]) {
     case (alive, i) if (i <= 1) => Cell(dead, neighbours)
     case (alive, 2)             => Cell(alive, neighbours)
     case (alive, i) if (i >= 4) => Cell(dead, neighbours)
+    case (dead, 3)              => Cell(alive, neighbours)
   }
 
 }
